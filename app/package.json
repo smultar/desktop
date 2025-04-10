@@ -74,5 +74,9 @@
   "devDependencies": {
     "electron-devtools-installer": "^4.0.0",
     "webpack-hot-middleware": "^2.10.0"
-  }
+  },
+  "trustedDependencies": [
+    "desktop-trampoline",
+    "fs-admin"
+  ]
 }

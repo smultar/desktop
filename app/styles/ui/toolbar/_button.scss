@@ -126,7 +126,7 @@
 
     .description {
       color: var(--toolbar-button-secondary-color);
-      font-size: var(--font-size-sm);
+      font-size: 10px;
       position: relative;
     }
 
@@ -146,6 +146,8 @@
       pointer-events: none;
       transition: transform 0.3s var(--easing-ease-out-quint);
     }
+
+    transition: all ease 300ms;
   }
 
   &.has-progress > button {

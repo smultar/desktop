@@ -5,11 +5,16 @@
 // Primer colors, see https://github.com/primer/primer-css/blob/master/modules/primer-support/lib/variables/color-system.scss
 @import '~primer-support/lib/variables/color-system.scss';
 
+// Manrope Font
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
+
 // Extracted as a SCSS variable so that we can define the --overlay-background-color
 // on both the :root and the ::backdrop scope. The ::backdrop pseudo-element
 // doesn't inherit :root, see
 // https://bugs.chromium.org/p/chromium/issues/detail?id=594096
 $overlay-background-color: rgba(0, 0, 0, 0.4);
+
+$base: #070709;
 
 :root {
   --color-new: #{$green-600};
@@ -63,7 +68,7 @@ $overlay-background-color: rgba(0, 0, 0, 0.4);
   //
   // Font, line-height, and color for body text, headings, and more.
   $emoji_fallback_fonts: 'Apple Color Emoji', 'Segoe UI', 'Segoe UI Emoji', 'Segoe UI Symbol';
-  --font-family-sans-serif: system-ui, sans-serif, #{$emoji_fallback_fonts};
+  --font-family-sans-serif: "Manrope", sans-serif, #{$emoji_fallback_fonts};
   --font-family-monospace: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace, #{$emoji_fallback_fonts};
 
   /**
@@ -78,9 +83,9 @@ $overlay-background-color: rgba(0, 0, 0, 0.4);
 
   // Pixel value used to responsively scale all typography. Applied to the `<html>` element.
   // When adding a new font-size variable, please update the fix-emoji-spacing.ts file.
-  --font-size: 12px;
+  --font-size: 11px;
   --font-size-sm: 11px;
-  --font-size-md: 14px;
+  --font-size-md: 12px;
   --font-size-lg: 28px;
   --font-size-xl: 32px;
   --font-size-xxl: 42px;
@@ -224,7 +229,7 @@ $overlay-background-color: rgba(0, 0, 0, 0.4);
    * If changed, update titleBarHeight in 'app/src/ui/dialog/dialog.tsx'
   */
   --win32-title-bar-height: 28px;
-  --win32-title-bar-background-color: #{$gray-900};
+  --win32-title-bar-background-color: #{$base};
 
   /**
    * The height of the title bar area on darwin platforms
@@ -305,7 +310,7 @@ $overlay-background-color: rgba(0, 0, 0, 0.4);
   --toolbar-badge-background-color: #{$gray-600};
   --toolbar-badge-active-background-color: #{$gray-200};
 
-  --tab-bar-height: 29px;
+  --tab-bar-height: 33px;
   --tab-bar-active-color: #{$blue};
   --tab-bar-background-color: #{$white};
   --tab-bar-hover-background-color: #{$gray-100};
@@ -548,5 +553,6 @@ $overlay-background-color: rgba(0, 0, 0, 0.4);
 }
 
 ::backdrop {
+  backdrop-filter: blur(3px);
   --overlay-background-color: #{$overlay-background-color};
 }
