@@ -6,7 +6,7 @@ uses [React](https://reactjs.org/).
 
 <picture>
   <source
-    srcset="https://user-images.githubusercontent.com/634063/202742848-63fa1488-6254-49b5-af7c-96a6b50ea8af.png"
+    srcset="https://github.com/user-attachments/assets/e5af94d1-2b35-41a6-8cd4-129b63635750"
     media="(prefers-color-scheme: dark)"
   />
   <img
