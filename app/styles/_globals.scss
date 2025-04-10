@@ -26,6 +26,9 @@ html {
 //
 // Reset HTML, body, and more
 //
+* {
+  transition: background-color ease 300ms;
+}
 
 // We never want the window to be scrollable, everything has to fit
 // or be placed into a scrollable container.
@@ -39,7 +42,6 @@ body {
 }
 
 svg.octicon.icon {
-
   width: 13px;
   height: 13px;
 }

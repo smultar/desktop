@@ -22,7 +22,7 @@ body.theme-dark {
   --color-renamed: #{$blue};
   --color-conflicted: #{$orange};
 
-  --text-color: #{$gray-100};
+  --text-color: #{$gray-200};
   --text-secondary-color:  #{lighten($base, 50%)};
   --text-secondary-color-muted: #{darken($gray-500, 10%)};
   --background-color: #{$base};

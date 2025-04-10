@@ -9,12 +9,15 @@
     border: none;
     padding: 0;
     margin: 0;
-
     display: flex;
     align-items: center;
     flex-direction: row;
 
     color: var(--text-color);
+
+    span {
+      height: 16px;
+    }
 
     &:hover {
       color: var(--text-secondary-color);
