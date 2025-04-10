@@ -297,12 +297,18 @@ body.theme-dark {
   --diff-line-number-color: var(--text-secondary-color);
   --diff-line-number-column-width: 50px;
 
-  --diff-selected-background-color: #{$blue-700};
-  --diff-selected-border-color: #{$blue-600};
-  --diff-selected-gutter-color: #{$blue-600};
+  --diff-selected-background-color: #{darken($blue-700, 12%)};
+  --diff-selected-border-color: #{$blue-700};
+  --diff-selected-gutter-color: #{$blue-700};
   --diff-selected-text-color: var(--text-color);
 
-  --diff-add-background-color: #{darken($green-900, 6%)};
+  --diff-add-background-color: #{darken($green-900, 9%)};
+
+
+
+
+
+
   --diff-add-border-color: #{darken($green-900, 2%)};
   --diff-add-gutter-color: #{darken($green-900, 2%)};
   --diff-add-gutter-background-color: #{darken($green-900, 12%)};
