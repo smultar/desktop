@@ -374,6 +374,13 @@ export interface IAppState {
   readonly underlineLinks: boolean
 
   readonly updateState: IUpdateState
+
+  readonly commitMessageGenerationDisclaimerLastSeen: number | null
+
+  readonly commitMessageGenerationButtonClicked: boolean
+
+  /** Whether the changes filter is shown */
+  readonly showChangesFilter: boolean
 }
 
 export enum FoldoutType {
@@ -529,6 +536,9 @@ export interface IRepositoryState {
 
   /** Is a commit in progress? */
   readonly isCommitting: boolean
+
+  /** Is generating a commit message? */
+  readonly isGeneratingCommitMessage: boolean
 
   /** Commit being amended, or null if none. */
   readonly commitToAmend: Commit | null

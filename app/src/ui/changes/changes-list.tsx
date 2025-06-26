@@ -130,7 +130,10 @@ interface IChangesListProps {
   readonly rebaseConflictState: RebaseConflictState | null
   readonly selectedFileIDs: ReadonlyArray<string>
   readonly onFileSelectionChanged: (rows: ReadonlyArray<number>) => void
-  readonly onIncludeChanged: (path: string, include: boolean) => void
+  readonly onIncludeChanged: (
+    file: WorkingDirectoryFileChange,
+    include: boolean
+  ) => void
   readonly onSelectAll: (selectAll: boolean) => void
   readonly onCreateCommit: (context: ICommitContext) => Promise<boolean>
   readonly onDiscardChanges: (file: WorkingDirectoryFileChange) => void
@@ -171,6 +174,8 @@ interface IChangesListProps {
   readonly dispatcher: Dispatcher
   readonly availableWidth: number
   readonly isCommitting: boolean
+  readonly isGeneratingCommitMessage: boolean
+  readonly shouldShowGenerateCommitMessageCallOut: boolean
   readonly commitToAmend: Commit | null
   readonly currentBranchProtected: boolean
   readonly currentRepoRulesInfo: RepoRulesInfo
@@ -632,9 +637,7 @@ export class ChangesList extends React.Component<
             ? 'Include Selected Files'
             : 'Include selected files',
           action: () => {
-            selectedFiles.map(file =>
-              this.props.onIncludeChanged(file.path, true)
-            )
+            selectedFiles.map(file => this.props.onIncludeChanged(file, true))
           },
         },
         {
@@ -642,9 +645,7 @@ export class ChangesList extends React.Component<
             ? 'Exclude Selected Files'
             : 'Exclude selected files',
           action: () => {
-            selectedFiles.map(file =>
-              this.props.onIncludeChanged(file.path, false)
-            )
+            selectedFiles.map(file => this.props.onIncludeChanged(file, false))
           },
         },
         { type: 'separator' },
@@ -767,9 +768,11 @@ export class ChangesList extends React.Component<
       repositoryAccount,
       dispatcher,
       isCommitting,
+      isGeneratingCommitMessage,
       commitToAmend,
       currentBranchProtected,
       currentRepoRulesInfo: currentRepoRulesInfo,
+      shouldShowGenerateCommitMessageCallOut,
     } = this.props
 
     if (rebaseConflictState !== null) {
@@ -826,6 +829,7 @@ export class ChangesList extends React.Component<
         isShowingFoldout={this.props.isShowingFoldout}
         anyFilesSelected={anyFilesSelected}
         anyFilesAvailable={fileCount > 0}
+        filesSelected={filesSelected}
         filesToBeCommittedCount={
           enableFilteredChangesList() ? filesSelected.length : undefined
         }
@@ -835,6 +839,10 @@ export class ChangesList extends React.Component<
         focusCommitMessage={this.props.focusCommitMessage}
         autocompletionProviders={this.props.autocompletionProviders}
         isCommitting={isCommitting}
+        isGeneratingCommitMessage={isGeneratingCommitMessage}
+        shouldShowGenerateCommitMessageCallOut={
+          shouldShowGenerateCommitMessageCallOut
+        }
         commitToAmend={commitToAmend}
         showCoAuthoredBy={this.props.showCoAuthoredBy}
         coAuthors={this.props.coAuthors}
@@ -857,6 +865,7 @@ export class ChangesList extends React.Component<
           this.onConfirmCommitWithUnknownCoAuthors
         }
         onPersistCommitMessage={this.onPersistCommitMessage}
+        onGenerateCommitMessage={this.onGenerateCommitMessage}
         onCommitMessageFocusSet={this.onCommitMessageFocusSet}
         onRefreshAuthor={this.onRefreshAuthor}
         onShowPopup={this.onShowPopup}
@@ -868,7 +877,6 @@ export class ChangesList extends React.Component<
       />
     )
   }
-
   private onCoAuthorsUpdated = (coAuthors: ReadonlyArray<Author>) =>
     this.props.dispatcher.setCoAuthors(this.props.repository, coAuthors)
 
@@ -893,6 +901,25 @@ export class ChangesList extends React.Component<
 
   private onPersistCommitMessage = (message: ICommitMessage) =>
     this.props.dispatcher.setCommitMessage(this.props.repository, message)
+
+  private onGenerateCommitMessage = (
+    filesSelected: ReadonlyArray<WorkingDirectoryFileChange>,
+    mustOverrideExistingMessage: boolean
+  ) => {
+    this.props.dispatcher.incrementMetric(
+      'generateCommitMessageButtonClickCount'
+    )
+
+    return mustOverrideExistingMessage
+      ? this.props.dispatcher.promptOverrideWithGeneratedCommitMessage(
+          this.props.repository,
+          filesSelected
+        )
+      : this.props.dispatcher.generateCommitMessage(
+          this.props.repository,
+          filesSelected
+        )
+  }
 
   private onShowPopup = (p: Popup) => this.props.dispatcher.showPopup(p)
   private onShowFoldout = (f: Foldout) => this.props.dispatcher.showFoldout(f)
